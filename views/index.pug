@@ -1,0 +1,17 @@
+extends layout
+
+block script
+    script.
+        var pushArr = [];
+        var liArr = "";
+        var es = new EventSource("/event");
+            es.onmessage = function(e) {
+                var el = document.getElementById('name');
+                var data = JSON.parse(e.data);
+                el.innerHTML = data.name;
+            }
+
+block content
+  h1= title
+  p Welcome to #{title}
+  div#name
