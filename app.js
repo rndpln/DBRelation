@@ -50,6 +50,11 @@ app.get('/ping/:name/:auth', function(req, res){
       res.send('done.');
 });
 
+app.get('/thank-you', function(req, res, next){
+    user_obj = {};
+    res.render('thank-you');
+});
+
 app.get('/event/', function(req, res){
     dataChannel.addClient(req, res);
 });

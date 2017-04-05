@@ -1,79 +1,12 @@
 extends layout
 
 block scripts
-block scripts
-    //script(src='/javascripts/index_script.js')
+    script(src='/javascripts/index_script.js')
     script(src='/javascripts/welcome_script.js')
     script(src='/javascripts/CSSPlugin.min.js')
     script(src='/javascripts/TweenLite.min.js')
     script.
         var imageArray = "#{images}".split(',');
-        var pushArr = [];
-        var liArr ="";
-        var user = {};
-
-        var skTimer;
-        function skip(){
-            $.fn.post();
-        }
-
-        var to;
-        var skiperVal = 11;
-        var skipScreen = true;
-        function skipTimer(){
-            var skipval = skiperVal;
-            var elbtn = document.getElementById('skip');
-            var el = document.getElementById('timer');
-            clearInterval(skTimer);
-            var i = skipval;
-            skTimer = setInterval(function(){
-                if(skipScreen){
-                    if(i < 1){
-                        clearInterval(skTimer);
-                        i = skipval;
-                        skip();
-                    }else{
-                        i--;
-                        if(i%2){
-                            elbtn.style.border = "#FFF 3px solid";
-                        } else {
-                            elbtn.style.border = "#F00 3px solid";
-                        }
-                    el.innerHTML = i;
-                    }
-                }else{
-                    clearInterval(skTimer);
-                    el.innerHTML = "";
-                    elbtn.style.border = "#300 3px solid";
-                }
-            },1000);
-        }
-
-        function clearOverlay(sec) {
-            if (user && user.name) {
-                $('#overlay').hide();
-
-                if (!sec) {
-                    sec = skiperVal;
-                }
-                clearTimeout(to);
-                to = setTimeout(function () {
-                    $('#overlay').show();
-                }, 1000 * sec);
-            }
-        };
-
-        var _date1;
-
-        var es = new EventSource("/event");
-            es.onmessage = function(e) {
-                skipTimer();
-                user = JSON.parse(e.data);
-                _date1 = moment(new Date());
-                $('.arrival').text(_date1.format("hh:mm A"));
-                $('#user').text(user.name.replace(/\./g,' '));
-                clearOverlay();
-            }
 
 block content
     div#overlay

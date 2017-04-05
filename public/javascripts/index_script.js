@@ -1,65 +1,17 @@
-var source = new EventSource('/stream');
-
-var user;
-var date1 = new Date();
-var _date1 = moment(date1);
-
-document.onselectstart = function(){
-    return false;
-};
-
-var to;
-function clearOverlay(sec){
-    if(user && user.name){
-        $('#overlay').hide();
-
-        if(!sec){
-            sec = 121;
-        }
-        clearTimeout(to);
-        to = setTimeout(function(){
-            $('#overlay').show();
-        }, 1000*sec);
-    }
-}
-
-function setLeaveTime(h, m){
-    _date2 = moment(_date1);
-    _date2 = _date2.add(Number(h), 'hours').add(Number(m), 'minutes');
-    $('.leaving').text(_date2.format("hh:mm A"));
-}
-
-source.addEventListener('message', function(e) {
-    user = JSON.parse(e.data);
-    if(user.name){
-        skipTimer();
-        _date1 = moment(new Date());
-        $('.arrival').text(_date1.format("hh:mm A"));
-        setLeaveTime($('#numInputHr').val(), $('#numInputMn').val());
-        $('#user').text(user.name.replace(/\./g,' '));
-        clearOverlay();
-    }
-});
-
-source.addEventListener('open', function(e) { });
-
-source.addEventListener('error', function(e) {
-    if (e.target.readyState == EventSource.CLOSED) {
-        console.log('disconnected...');
-    }
-    else if (e.target.readyState == EventSource.CONNECTING) {
-        console.log('connecting...');
-    }
-}, false);
+var pushArr = [];
+var liArr ="";
+var user = {};
 
 var skTimer;
 function skip(){
     $.fn.post();
 }
 
+var to;
+var skiperVal = 30;
 var skipScreen = true;
 function skipTimer(){
-    var skipval = 100;
+    var skipval = skiperVal;
     var elbtn = document.getElementById('skip');
     var el = document.getElementById('timer');
     clearInterval(skTimer);
@@ -86,6 +38,33 @@ function skipTimer(){
         }
     },1000);
 }
+
+function clearOverlay(sec) {
+    if (user && user.name) {
+        $('#overlay').hide();
+
+        if (!sec) {
+            sec = skiperVal;
+        }
+        clearTimeout(to);
+        to = setTimeout(function () {
+            $('#overlay').show();
+        }, 1000 * sec);
+    }
+};
+
+var _date1;
+
+var es = new EventSource("/event");
+es.onmessage = function(e) {
+    skipTimer();
+    user = JSON.parse(e.data);
+    _date1 = moment(new Date());
+    $('.arrival').text(_date1.format("hh:mm A"));
+    $('#user').text(user.name.replace(/\./g,' '));
+    clearOverlay();
+}
+
 
 $(document).ready(function(){
 
@@ -131,8 +110,7 @@ $(document).ready(function(){
         if(user && user.name){
             $.post('/', {
                 user: user.name,
-                data: post_arr,
-                enter_date: date1
+                data: post_arr
             });
             window.location.replace("thank-you");
         }
