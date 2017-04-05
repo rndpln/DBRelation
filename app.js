@@ -27,8 +27,23 @@ setInterval(function(){
 var dataChannel = new SSEchannel();
 
 var app = express();
-var test = "testing.";
-var testOld;
+
+var areas_arr = [
+    'Wood Shop',
+    'Metal Shop',
+    'Welding',
+    'Automotive',
+    'Machine Shop',
+    'Textiles',
+    '3D Printing',
+    'Social',
+    'Office',
+    'Events/Classroom',
+    'Laser Cutter',
+    'Electronics',
+    'Plasma Cutter',
+    'Arts/Crafts'
+];
 
 app.get('/ping/:name/:auth', function(req, res){
       dataChannel.send(JSON.stringify(req.params));
@@ -36,7 +51,6 @@ app.get('/ping/:name/:auth', function(req, res){
 });
 
 app.get('/event/', function(req, res){
-    console.log(dataChannel.lastEventId)
     dataChannel.addClient(req, res);
 });
 
@@ -71,8 +85,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+//app.use('/', index);
+//app.use('/users', users);
+
+var fs = require('fs');
+var ImageNames = [];
+fs.readdir('./public/images/',function(e, file){
+    ImageNames.push(file);
+});
+
+app.get('/', function(req, res, next) {
+    res.render('index', {areas: areas_arr, images:ImageNames});
+    //res.render('index', { title: 'Express' });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -80,6 +105,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {

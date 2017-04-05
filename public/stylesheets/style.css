@@ -1,8 +1,159 @@
 body {
-  padding: 50px;
+  background-color: #555;
+  padding: 0px;
+  margin: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  }
+
+#content{
+  padding: 40px;
+}
+
+h1,h2{
+  margin-top: 0px;
+  color: #FFF;
+  text-align:center;
 }
 
 a {
   color: #00B7FF;
+}
+
+.arrival, .leaving{
+  color: #92d4ff !important;
+}
+
+#container{
+  clear:both;
+  float:left;
+}
+
+#user{
+  color: #ff8e09;
+  text-decoration: underline;
+}
+
+.areaBtn{
+  background-color:#CCC;
+  padding: 10px;
+  border-radius: 10px;
+  width: 240px;
+  margin: 10px;
+  text-align:center;
+  float:left;
+  font-size: 2em;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.selected{
+  background-color:#F00;
+}
+
+#est_time{
+  float:left;
+  border-top: 3px solid #FFF;
+  border-bottom: 3px solid #FFF;
+  margin: 10px 0px;
+  width: 100%;
+  padding: 10px 0px;
+  text-align:center;
+}
+#est_time span{
+  font-size: 2em;
+  color: #FFF;
+  display: block;
+
+}
+#est
+.est_text{
+  text-align:left !important;
+  float:left;
+}
+#est_time input{
+  text-align:center;
+}
+
+#submit{
+  width:100%;
+  cursor: pointer;
+  user-select: none;
+  -moz-user-select: none;
+  background-color: #CCC;
+  padding: 10px;
+  border-radius: 10px;
+  float:left;
+  text-align:center;
+  font-size: 2em;
+  margin: 30px 0px 0px 0px;
+}
+
+#skip{
+  width:100%;
+  cursor: pointer;
+  user-select: none;
+  -moz-user-select: none;
+  background-color: #F00;
+  padding: 10px;
+  color:#FFF;
+  border-radius: 10px;
+  float:left;
+  text-align:center;
+  font-size: 2em;
+  margin: 30px 0px 0px 0px;
+}
+
+#welcomeFloater{
+  position: absolute;
+  font-size: 7em;
+  color: #FFF;
+  width: 1137px;
+  float:left;
+  font-weight: bold;
+  z-index:9999;
+  background-color:rgba(0,0,0,.5);
+  padding: 10px;
+}
+#welcomeFloater div{
+  font-size: .3em;
+  float:left;
+  width: 100%;
+  text-align: center;
+}
+#welcomeFloater .make1{
+  color: #0073b7;
+}
+#welcomeFloater .make2{
+  color: #ffa600;
+}
+
+#overlay{
+  position: absolute;
+  z-index: 9999;
+  width: 100%;
+  height:100%;
+  background-color:#000;
+  overflow: hidden;
+}
+
+.overImage{
+  position:absolute;
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0;
+}
+
+/*table*/
+table{
+  background-color:#ccc;
+}
+
+#topRow td{
+  text-align:center;
+  font-weight: bold;
+  font-size: 2em;
+  border: none;
 }
