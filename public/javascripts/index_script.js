@@ -53,14 +53,14 @@ function clearOverlay(sec) {
     }
 };
 
-var _date1;
+var _date1 = new Date();
 
 var es = new EventSource("/event");
 es.onmessage = function(e) {
     skipTimer();
     user = JSON.parse(e.data);
-    _date1 = moment(new Date());
-    $('.arrival').text(_date1.format("hh:mm A"));
+    _date_moment = moment(_date1);
+    $('.arrival').text(_date_moment.format("hh:mm A"));
     $('#user').text(user.name.replace(/\./g,' '));
     clearOverlay();
 }
@@ -110,6 +110,7 @@ $(document).ready(function(){
         if(user && user.name){
             $.post('/', {
                 user: user.name,
+                date: _date1,
                 data: post_arr
             });
             window.location.replace("thank-you");

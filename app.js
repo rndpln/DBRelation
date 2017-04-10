@@ -1,4 +1,3 @@
-//var SSE = require('server-sent-events');
 var SSEchannel = require('sse-channel');
 var express = require('express');
 var path = require('path');
@@ -10,23 +9,14 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-/*
-var mongoose = require('mongoose');
-    mongoose.connect({'mongodb://127.0.0.1/test_relations'})
-*/
-
-/*
-var i = 0;
-setInterval(function(){
-    i++;
- dataChannel.send('test');
-    console.log(dataChannel.lastEventId);
-}, 1000);
-*/
+var db = require('mongoose');
+    db.connect('mongodb://127.0.0.1/front_kiosk');
 
 var dataChannel = new SSEchannel();
 
 var app = express();
+
+var DoorUser = require('./models/DoorUser');
 
 var areas_arr = [
     'Wood Shop',
@@ -59,39 +49,15 @@ app.get('/event/', function(req, res){
     dataChannel.addClient(req, res);
 });
 
-/*
- var eArr = [];
-app.get('/event/', SSE, function(req, res){
-    var i = 0;
-    var s = setInterval(function(){
-        //console.log(test, testOld, test!== testOld, i);
-        if(test !== testOld){
-            testOld = test;
-            eArr.push(test);
-            console.log(eArr, eArr[eArr.length-1]);
-            res.sse('data:'+eArr+'\n\n');
-        }
-        i++;
-    }, 2000);
-
-    //res.sse('data: N/A \n\n');
-});
-*/
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-//app.use('/', index);
-//app.use('/users', users);
 
 var fs = require('fs');
 var ImageNames = [];
@@ -101,7 +67,34 @@ fs.readdir('./public/images/',function(e, file){
 
 app.get('/', function(req, res, next) {
     res.render('index', {areas: areas_arr, images:ImageNames});
-    //res.render('index', { title: 'Express' });
+});
+
+app.post('/', function(req, res, next) {
+    DoorUser({
+        name: req.body.user,
+        date: req.body.date,
+        resources: req.body['data[]']
+    }).save(function(e){
+        if(e){
+            console.log(e);
+        }else{
+            console.log('posted.')
+        }
+    });
+});
+
+app.get('/user', function(req, res, next){
+    DoorUser.find(function(err, user){
+        if(err) console.log(err);
+        res.render('userList', {userLists:user});
+    });
+});
+
+app.get('/user/:username', function(req, res, next){
+    DoorUser.find(function(err, user){
+        if(err) console.log(err);
+        res.render('user', {user:user});
+    });
 });
 
 // catch 404 and forward to error handler

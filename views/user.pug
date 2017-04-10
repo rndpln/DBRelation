@@ -1,0 +1,26 @@
+extends layout
+
+block scripts
+    script(src='/javascripts/user_signout.js')
+
+
+block content
+    h1 #{user[0].name}
+    ul
+        li
+            a(href="/user") Back
+        li
+            a(href="/user/"+user[0].name+"/signout") Sign out
+    table(border="1" cellpadding="5")
+        tr#topRow
+            td name
+            td Enter
+            td Leave
+            td resources
+        each val in user
+            tr
+                td
+                    a(href='/user/' + val.name) #{val.name}
+                td #{val.date.format('YYYY/MM/DD hh:mm A')}
+                td #{val.date2}
+                td #{val.resources}

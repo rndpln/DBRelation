@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    h1 User List
+    ul
+        li
+            a(href="/") Main
+        li
+            a download csv
+    table(border="1" cellpadding="5")
+        tr#topRow
+            td name
+            td Enter
+            td Leave
+            td resources
+        each user in userLists
+            tr
+                td
+                    a(href='/user/'+user.name) #{user.name}
+                td #{user.date.format('YYYY/MM/DD hh:mm A')}
+                td #{user.date2}
+                td #{user.resources}
