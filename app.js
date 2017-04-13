@@ -78,23 +78,45 @@ app.post('/', function(req, res, next) {
         if(e){
             console.log(e);
         }else{
-            console.log('posted.')
+            console.log('posted.');
         }
     });
 });
 
+/*
 app.get('/user', function(req, res, next){
     DoorUser.find(function(err, user){
         if(err) console.log(err);
         res.render('userList', {userLists:user});
     });
 });
+*/
 
-app.get('/user/:username', function(req, res, next){
-    DoorUser.find(function(err, user){
-        if(err) console.log(err);
-        res.render('user', {user:user});
+app.get('/user/:username?', function(req, res, next){
+
+    var offset = req.query.p || 0;
+
+    var obj = {};
+    if(req.params.username){
+        obj = {name: req.params.username};
+    }
+
+    DoorUser.find({}).exec(function(err, user){
+        console.log(err, user);
     });
+
+    //console.log(obj.name);
+
+    /*
+    DoorUser.find(obj).exec(function(user, err){
+        if(err) console.log(err);
+        if(obj.name) res.render('user', {user: user});
+        else res.render('userList',{userLists: user});
+        console.log('===============');
+        //console.log(user);
+    });
+*/
+
 });
 
 // catch 404 and forward to error handler
