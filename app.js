@@ -95,7 +95,7 @@ app.get('/user', function(req, res, next){
 app.get('/user/:username?', function(req, res, next){
 
     var off = req.query.p || 0;
-    var lim = 10;
+    var lim = 50;
 
     var obj = {};
     if(req.params.username){
