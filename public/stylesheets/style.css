@@ -157,3 +157,15 @@ table{
   font-size: 2em;
   border: none;
 }
+
+.paginated{
+    background-color: #CCC;
+    padding: 4px;
+    margin: 2px;
+    display: block;
+    float:left;
+}
+
+.current{
+   border: #FFF;
+}

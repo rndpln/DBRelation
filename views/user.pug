@@ -3,14 +3,17 @@ extends layout
 block scripts
     script(src='/javascripts/user_signout.js')
 
-
 block content
-    h1 #{user[0].name}
+
+    if single
+        h1 #{user[0].name}
+    else
+        h1 User List
+
     ul
         li
             a(href="/user") Back
-        li
-            a(href="/user/"+user[0].name+"/signout") Sign out
+
     table(border="1" cellpadding="5")
         tr#topRow
             td name
@@ -24,3 +27,7 @@ block content
                 td #{val.date.format('YYYY/MM/DD hh:mm A')}
                 td #{val.date2}
                 td #{val.resources}
+
+    -var ct = 0;
+    while ct <= cnt
+        a.paginated(href='?p='+ct)= ct++

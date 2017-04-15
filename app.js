@@ -94,28 +94,28 @@ app.get('/user', function(req, res, next){
 
 app.get('/user/:username?', function(req, res, next){
 
-    var offset = req.query.p || 0;
+    var off = req.query.p || 0;
+    var lim = 10;
 
     var obj = {};
     if(req.params.username){
         obj = {name: req.params.username};
     }
 
-    DoorUser.find({}).exec(function(err, user){
-        console.log(err, user);
-    });
+    DoorUser.find(obj, function(err, user){
 
-    //console.log(obj.name);
+        DoorUser.count(obj, function(err, count){
+            var pagCnt = (count) / lim;
+            //console.log(count);
+            if(obj.name){
+                res.render('user', {user:user, single:true, cnt: pagCnt});
+            }else {
+                res.render('user', {user:user, single:false, cnt: pagCnt})
+            }
+        });
 
-    /*
-    DoorUser.find(obj).exec(function(user, err){
-        if(err) console.log(err);
-        if(obj.name) res.render('user', {user: user});
-        else res.render('userList',{userLists: user});
-        console.log('===============');
-        //console.log(user);
-    });
-*/
+
+    }).limit(lim).skip(off*lim);
 
 });
 
