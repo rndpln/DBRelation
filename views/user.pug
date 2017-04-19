@@ -48,6 +48,8 @@ block content
         var month = document.getElementById('cal_month');
         var year = document.getElementById('cal_year');
         var m = new moment('#{date}');
+        var mon = m.month();
+        var yer = m.year();
         var cur = new moment();
 
         console.log(m.format('D'));
@@ -77,7 +79,7 @@ block content
                     el.className = "block";
                     el.innerHTML = i;
 
-                    if(i == m.format('D')){
+                    if(i == m.format('D') && m.month() == mon && m.year() == yer){
                         el.style.boxSizing = "border-box";
                         el.style.border = "#FFF 2px solid";
                         el.style.backgroundColor = "#333";
