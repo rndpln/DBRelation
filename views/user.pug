@@ -50,6 +50,8 @@ block content
         var m = new moment('#{date}');
         var cur = new moment();
 
+        console.log(m.format('D'));
+
         var next = document.getElementById('cal_next');
         var prev = document.getElementById('cal_prev');
 
@@ -74,6 +76,13 @@ block content
                 var el = document.createElement('div');
                     el.className = "block";
                     el.innerHTML = i;
+
+                    if(i == m.format('D')){
+                        el.style.boxSizing = "border-box";
+                        el.style.border = "#FFF 2px solid";
+                        el.style.backgroundColor = "#333";
+                        el.style.color = "#0F0";
+                    }
 
                     if(i == cur.date() && m.month() == cur.month() && m.year() == cur.year()){
                         el.className += " cal_cur";

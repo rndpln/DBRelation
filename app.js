@@ -102,7 +102,7 @@ app.get('/user/:username?', function(req, res, next){
     if(date){
         obj.date = {$gte: moment(date).valueOf(), $lte: moment(date).add(1, 'day').valueOf()};
     }else{
-        date = moment().format('Y-M-d');
+        date = moment().format('Y-M-D');
     }
 
     DoorUser.find(obj, function(err, _user){

@@ -206,10 +206,9 @@ table{
 
 .block{
   display:block;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   float:left;
-  padding: 4px;
   background-color: #CCC;
   margin: 2px;
   cursor: pointer;
