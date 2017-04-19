@@ -169,3 +169,48 @@ table{
 .current{
    border: #FFF;
 }
+
+#cal_heading{
+  background-color:#CCC;
+  padding: 5px;
+  margin: 1px;
+  text-align:center;
+  position: relative;
+}
+#cal_prev{
+  position: absolute;
+  cursor: pointer;
+  top:0px;
+  left: 0px;
+  background-color: #000;
+  color: #7ed4ff;
+}
+#cal_next{
+  position: absolute;
+  cursor: pointer;
+  top: 0px;
+  right: 0px;
+  background-color: #000;
+  color: #7ed4ff;
+}
+
+.cal_cur{
+  background-color:#F00 !important;
+}
+
+#calendar{
+  clear:both;
+  float:left;
+  width: 230px;
+}
+
+.block{
+  display:block;
+  width: 20px;
+  height: 20px;
+  float:left;
+  padding: 4px;
+  background-color: #CCC;
+  margin: 2px;
+  cursor: pointer;
+}

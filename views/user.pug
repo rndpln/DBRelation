@@ -3,31 +3,87 @@ extends layout
 block scripts
     script(src='/javascripts/user_signout.js')
 
+
 block content
 
-    if single
-        h1 #{user[0].name}
+    div#calendar
+        div#cal_heading
+            span#cal_month
+            span#cal_year
+            div#cal_prev <
+            div#cal_next >
+        div#cal_cont
+
+    if user[0]
+        if single
+            h1 #{user[0].name}
+            a(href="/user") All Users
+        else
+            h1 User List
+
+        table(border="1" cellpadding="5")
+            tr#topRow
+                td name
+                td Enter
+                td Leave
+                td resources
+            each val in user
+                tr
+                    td
+                        a(href='/user/' + val.name) #{val.name}
+                    td #{val.date.format('YYYY/MM/DD hh:mm A')}
+                    td #{val.date2}
+                    td #{val.resources}
     else
-        h1 User List
-
-    ul
-        li
-            a(href="/user") Back
-
-    table(border="1" cellpadding="5")
-        tr#topRow
-            td name
-            td Enter
-            td Leave
-            td resources
-        each val in user
-            tr
-                td
-                    a(href='/user/' + val.name) #{val.name}
-                td #{val.date.format('YYYY/MM/DD hh:mm A')}
-                td #{val.date2}
-                td #{val.resources}
+        h1 no user found.
 
     -var ct = 0;
     while ct <= cnt
         a.paginated(href='?p='+ct)= ct++
+
+    script.
+        var p = document.getElementById('calendar');
+        var pCont = document.getElementById('cal_cont')
+        var head = document.getElementById('cal_heading');
+        var month = document.getElementById('cal_month');
+        var year = document.getElementById('cal_year');
+        var m = new moment('#{date}');
+        var cur = new moment();
+
+        var next = document.getElementById('cal_next');
+        var prev = document.getElementById('cal_prev');
+
+        prev.onmousedown = function(){
+            m.subtract(1, 'month');
+            displayCal();
+        };
+
+        next.onmousedown = function(){
+            m.add(1, 'month');
+            displayCal();
+        };
+
+        displayCal();
+
+        function displayCal(){
+            pCont.innerHTML = "";
+            month.innerHTML = m.format('MMMM');
+            year.innerHTML = m.format(' - Y');
+
+            for(i = 1; i<= m.daysInMonth(); i++) {
+                var el = document.createElement('div');
+                    el.className = "block";
+                    el.innerHTML = i;
+
+                    if(i == cur.date() && m.month() == cur.month() && m.year() == cur.year()){
+                        el.className += " cal_cur";
+                    }
+
+                    var pathAr = location.href.split('/');
+                    el.onmousedown = function(){
+                        window.location = pathAr[0] + pathAr[1]+ "?d="+m.year()+'-'+(m.month()+1)+'-'+this.innerHTML;
+                    }
+
+                pCont.appendChild(el);
+            }
+        }

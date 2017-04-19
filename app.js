@@ -6,6 +6,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var moment = require('moment');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -83,37 +85,31 @@ app.post('/', function(req, res, next) {
     });
 });
 
-/*
-app.get('/user', function(req, res, next){
-    DoorUser.find(function(err, user){
-        if(err) console.log(err);
-        res.render('userList', {userLists:user});
-    });
-});
-*/
-
 app.get('/user/:username?', function(req, res, next){
 
     var off = req.query.p || 0;
+    var date = req.query.d;
+
     var lim = 50;
+    var single = false;
 
     var obj = {};
     if(req.params.username){
-        obj = {name: req.params.username};
+        obj.name = req.params.username;
+        single = true;
     }
 
-    DoorUser.find(obj, function(err, user){
+    if(date){
+        obj.date = {$gte: moment(date).valueOf(), $lte: moment(date).add(1, 'day').valueOf()};
+    }else{
+        date = moment().format('Y-M-d');
+    }
 
-        DoorUser.count(obj, function(err, count){
-            var pagCnt = (count) / lim;
-            //console.log(count);
-            if(obj.name){
-                res.render('user', {user:user, single:true, cnt: pagCnt});
-            }else {
-                res.render('user', {user:user, single:false, cnt: pagCnt})
-            }
-        });
+    DoorUser.find(obj, function(err, _user){
+        var count = _user.length;
+        var pagCnt = count / lim;
 
+        res.render('user',{user:_user, single:single, cnt:pagCnt, date:date})
 
     }).limit(lim).skip(off*lim);
 
