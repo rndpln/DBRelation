@@ -62,6 +62,11 @@ es.onmessage = function(e) {
     _date_moment = moment(_date1);
     $('.arrival').text(_date_moment.format("hh:mm A"));
     $('#user').text(user.name.replace(/\./g,' '));
+    $('#callout').show();
+    if(user.org){
+        $('#user').append(' ('+user.org+')');
+        $('#callout').hide();
+    }
     clearOverlay();
 }
 

@@ -6,6 +6,7 @@ block scripts
 
 block content
 
+    a#filterAdd(href="#") Add BAE Filter
     div#calendar
         div#cal_heading
             span#cal_month
@@ -69,6 +70,7 @@ block content
 
         displayCal();
 
+        var pathAr = location.href.split('/');
         function displayCal(){
             pCont.innerHTML = "";
             month.innerHTML = m.format('MMMM');
@@ -90,11 +92,14 @@ block content
                         el.className += " cal_cur";
                     }
 
-                    var pathAr = location.href.split('/');
                     el.onmousedown = function(){
                         window.location = pathAr[0] + pathAr[1]+ "?d="+m.year()+'-'+(m.month()+1)+'-'+this.innerHTML;
                     }
 
                 pCont.appendChild(el);
             }
+        }
+
+        document.getElementById('filterAdd').onmousedown = function() {
+            window.location = pathAr[0] + pathAr[1] + "?f=BAE";
         }

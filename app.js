@@ -20,6 +20,31 @@ var app = express();
 
 var DoorUser = require('./models/DoorUser');
 
+var BAE_employees = [
+    'Henry.Karwacki',
+    'Carl.Nivens',
+    'Jeremy.Gibson',
+    'Adam.Sayer',
+    'Benjamin.Campbell',
+    'Eric.Gausch',
+    'Charles.Bobbins',
+    'Melissa.Trepanier',
+    'Kevin.Peters',
+    'Michael.Shaw',
+    'David.Dainis',
+    'William.Forsling',
+    'Christopher.Cole',
+    'Timothy.DelSignore',
+    'Zack.Maynard',
+    'Brian.Smith',
+    'Peter.MBauerIII',
+    'Daniel.Magarrell',
+    'Thomas.Collins',
+    'Peter.Webster',
+    'PJ.Guill',
+    'Alain.Larouche'
+];
+
 var areas_arr = [
     'Wood Shop',
     'Metal Shop',
@@ -38,6 +63,11 @@ var areas_arr = [
 ];
 
 app.get('/ping/:name/:auth', function(req, res){
+      //hacky way of determining if an employee is from BAE. TODO: Use a USER database and add an ORG field.
+      if(BAE_employees.indexOf(req.params.name) >= 0){
+          req.params.org = "BAE";
+      }
+
       dataChannel.send(JSON.stringify(req.params));
       res.send('done.');
 });
@@ -97,6 +127,10 @@ app.get('/user/:username?', function(req, res, next){
     if(req.params.username){
         obj.name = req.params.username;
         single = true;
+    }
+
+    if(req.query.f === "BAE"){
+        obj.name = {$in: BAE_employees};
     }
 
     if(date){

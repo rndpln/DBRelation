@@ -213,3 +213,19 @@ table{
   margin: 2px;
   cursor: pointer;
 }
+
+.org{
+  color: #7ed4ff;
+}
+#callout{
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  background-color: #FF0000;
+  color: #FFF;
+  padding: 4px;
+  top: 0px;
+  left: 0px;
+  font-size: 16px;
+  display: block;
+}
